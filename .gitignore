@@ -1,2 +1,3 @@
-.hugo_build.lock
 .idea/
+# hugo
+.hugo_build.lock

@@ -1,0 +1,10 @@
+---
+more:
+  - name: Releases
+    ref: "https://github.com/k-cloud-labs/kinitiras/releases"
+    external: true
+    icon: "gdoc_download"
+  - name: "View Source"
+    ref: "https://github.com/k-cloud-labs/kinitiras"
+    external: true
+    icon: "gdoc_github"
