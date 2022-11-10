@@ -1,5 +1,5 @@
 ---
-baseURL: "http://k-cloud-labs.github.io/kinitiras-doc"
+baseURL: "http://k-cloud-labs.github.io/kinitiras-doc/"
 title: "Kinitiras"
 theme: "hugo-geekdoc"
 
