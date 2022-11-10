@@ -1,6 +1,6 @@
 ---
-title: Getting Started
-weight: -20
+title: Doc Example
+weight: -10
 ---
 
 This page tells you how to get started with the `Kinitiras`, including installation and basic configuration.

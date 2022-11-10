@@ -1,0 +1,18 @@
+:root {
+    --code-max-height: 60rem;
+}
+
+/* Light mode theming */
+:root,
+:root[color-theme="light"] {
+    --header-background: #58d0d0;
+    --header-font-color: #ffffff;
+
+    --button-background: #62cb97;
+    --button-border-color: #4ec58a;
+}
+
+:root[color-theme="dark"] {
+    --header-background: #1d5151;
+    --header-font-color: #ffffff;
+}

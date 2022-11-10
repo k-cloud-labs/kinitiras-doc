@@ -1,31 +1,46 @@
 ---
-title: Welcome to the documentation
+title: Welcome to the Kinitiras
 geekdocNav: false
 geekdocAlign: center
 geekdocAnchor: false
+resources:
+- name: logo
+  src: "kinitiras.png"
+  title: ""
 ---
 
-Geekdoc is a simple Hugo theme for documentations. It is intentionally designed as a fast and lean theme and may not fit the requirements of complex projects. If a more feature-complete theme is required there are a lot of got alternatives out there.
+{{< img name="logo" size="small" lazy=false >}}
 
-{{< button size="large" relref="usage/get-started/" >}}Getting Started{{< /button >}}
+[![Build Status](https://github.com/k-cloud-labs/kinitiras/actions/workflows/ci.yml/badge.svg)](https://github.com/k-cloud-labs/kinitiras/actions?query=workflow%3Abuild)
+[![codecov](https://codecov.io/gh/k-cloud-labs/kinitiras/branch/main/graph/badge.svg?token=74uYpOiawR)](https://codecov.io/gh/k-cloud-labs/kinitiras)
+[![Go Report Card](https://goreportcard.com/badge/github.com/k-cloud-labs/kinitiras)](https://goreportcard.com/report/github.com/k-cloud-labs/kinitiras)
+[![Go doc](https://img.shields.io/badge/go.dev-reference-brightgreen?logo=go&logoColor=white&style=flat)](https://pkg.go.dev/github.com/k-cloud-labs/kinitiras)
 
-## Feature overview
+
+A **lightweight** but **powerful** and **programmable** rule engine for kubernetes admission webhook.
+
+If you want to use it in clientside with client-go, please use [pidalio](https://github.com/k-cloud-labs/pidalio).
+
+
+{{< button size="large" relref="usage/quick-start/" >}}Getting Started{{< /button >}}
+
+## Feature overview (TBD)
 
 {{< columns >}}
 
-### Clean and simple design
+### Feature one
 
 Stay focused on exploring the content and don't get overwhelmed by a complex design.
 
 <--->
 
-### Light and mobile-friendly
+### Feature two
 
 The theme is powered by less than 1 MB and looks impressive on mobile devices as well as on a regular Desktop.
 
 <--->
 
-### Easy customization
+### Feature three
 
 The look and feel can be easily customized by CSS custom properties (variables), features can be adjusted by Hugo parameters.
 
@@ -33,20 +48,26 @@ The look and feel can be easily customized by CSS custom properties (variables),
 
 {{< columns >}}
 
-### Zero initial configuration
+### Feature four
 
 Getting started in minutes. The theme is shipped with a default configuration and works out of the box.
 
 <--->
 
-### Handy shortcodes
+### Feature five
 
 We included some (hopefully) useful custom shortcodes so you don't have to and can focus on writing amazing docs.
 
 <--->
 
-### Dark mode
+### Feature six
 
 Powerful dark mode that detects your system preferences or can be controlled by a toggle switch.
 
 {{< /columns >}}
+
+<br>
+<br>
+<br>
+
+> A **lightweight** but **powerful** and **programmable** rule engine for kubernetes admission webhook.
