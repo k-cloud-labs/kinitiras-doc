@@ -291,6 +291,14 @@ nil means matching all resources.</p>
 </tr>
 </tbody>
 </table>
+<h3 id="policy.kcloudlabs.io/v1alpha1.AffectMode">AffectMode
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ValidateCondition">ValidateCondition</a>)
+</p>
+<div>
+<p>AffectMode is defining match affect</p>
+</div>
 <h3 id="policy.kcloudlabs.io/v1alpha1.ClusterValidatePolicySpec">ClusterValidatePolicySpec
 </h3>
 <p>
@@ -341,7 +349,7 @@ nil means matching all resources.</p>
 <h3 id="policy.kcloudlabs.io/v1alpha1.Cond">Cond
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.TemplateCondition">TemplateCondition</a>)
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ValidateCondition">ValidateCondition</a>)
 </p>
 <div>
 <p>Cond is validation condition for validator</p>
@@ -383,15 +391,18 @@ nil means matching all resources.</p>
 </tr><tr><td><p>&#34;NotIn&#34;</p></td>
 <td><p>CondNotIn - <code>NotIn</code></p>
 </td>
+</tr><tr><td><p>&#34;Regex&#34;</p></td>
+<td><p>CondRegex match regex. e.g. <code>/^\d{1,}$/</code></p>
+</td>
 </tr></tbody>
 </table>
-<h3 id="policy.kcloudlabs.io/v1alpha1.CustomTypes">CustomTypes
+<h3 id="policy.kcloudlabs.io/v1alpha1.ConstantValue">ConstantValue
 </h3>
 <p>
-(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.TemplateCondition">TemplateCondition</a>, <a href="#policy.kcloudlabs.io/v1alpha1.TemplateRule">TemplateRule</a>)
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.OverrideRuleTemplate">OverrideRuleTemplate</a>, <a href="#policy.kcloudlabs.io/v1alpha1.ValidateCondition">ValidateCondition</a>)
 </p>
 <div>
-<p>CustomTypes defines exact types. Only one of field can be set.</p>
+<p>ConstantValue defines exact types. Only one of field can be set.</p>
 </div>
 <table>
 <thead>
@@ -506,7 +517,7 @@ map[string]string
 <h3 id="policy.kcloudlabs.io/v1alpha1.Float64">Float64
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.CustomTypes">CustomTypes</a>, <a href="#policy.kcloudlabs.io/v1alpha1.ResourcesOversellRule">ResourcesOversellRule</a>)
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ConstantValue">ConstantValue</a>, <a href="#policy.kcloudlabs.io/v1alpha1.ResourcesOversellRule">ResourcesOversellRule</a>)
 </p>
 <div>
 <p>Float64 is alias for float64 as string</p>
@@ -514,7 +525,7 @@ map[string]string
 <h3 id="policy.kcloudlabs.io/v1alpha1.HttpDataRef">HttpDataRef
 </h3>
 <p>
-(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ResourceRefer">ResourceRefer</a>)
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ReplicaResourceRefer">ReplicaResourceRefer</a>, <a href="#policy.kcloudlabs.io/v1alpha1.ResourceRefer">ResourceRefer</a>)
 </p>
 <div>
 <p>HttpDataRef defines a http request essential params</p>
@@ -553,6 +564,18 @@ string
 </tr>
 <tr>
 <td>
+<code>header</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Header represents the custom header added to http request header.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>params</code><br/>
 <em>
 map[string]string
@@ -560,11 +583,30 @@ map[string]string
 </td>
 <td>
 <em>(Optional)</em>
-<p>Params represents the query value when it&rsquo;s get request and json body when it&rsquo;s a post request.</p>
+<p>Params represents the query value for http request.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>body</code><br/>
+<em>
+k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+</em>
+</td>
+<td>
+<p>Body represents the json body when http method is POST.</p>
 </td>
 </tr>
 </tbody>
 </table>
+<h3 id="policy.kcloudlabs.io/v1alpha1.OperationType">OperationType
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ValueProcess">ValueProcess</a>)
+</p>
+<div>
+<p>OperationType defines the type of processing value.</p>
+</div>
 <h3 id="policy.kcloudlabs.io/v1alpha1.OverridePolicySpec">OverridePolicySpec
 </h3>
 <p>
@@ -612,10 +654,190 @@ nil means matching all resources.</p>
 </tr>
 </tbody>
 </table>
+<h3 id="policy.kcloudlabs.io/v1alpha1.OverrideRuleTemplate">OverrideRuleTemplate
+</h3>
+<p>
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.Overriders">Overriders</a>)
+</p>
+<div>
+<p>OverrideRuleTemplate represents a single template of rule definition</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#policy.kcloudlabs.io/v1alpha1.OverrideRuleType">
+OverrideRuleType
+</a>
+</em>
+</td>
+<td>
+<em>(<code>Required</code>)</em>
+<p>Type represents current rule operate field type.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operation</code><br/>
+<em>
+<a href="#policy.kcloudlabs.io/v1alpha1.OverriderOperator">
+OverriderOperator
+</a>
+</em>
+</td>
+<td>
+<em>(<code>Required</code>)</em>
+<p>Operation represents current operation type.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>path</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Path is field path of current object(e.g. <code>/spec/affinity</code>)
+If current type is annotations or labels, then only need to provide the key, no need whole path.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+<a href="#policy.kcloudlabs.io/v1alpha1.ConstantValue">
+ConstantValue
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Value sets exact value for rule, like enum or numbers
+Must set value when type is regex.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>valueRef</code><br/>
+<em>
+<a href="#policy.kcloudlabs.io/v1alpha1.ResourceRefer">
+ResourceRefer
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>ValueRef represents for value reference from current or remote object.
+Need specify the type of object and how to get it.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>resources</code><br/>
+<em>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#resourcerequirements-v1-core">
+Kubernetes core/v1.ResourceRequirements
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Resources valid only when the type is <code>resources</code></p>
+</td>
+</tr>
+<tr>
+<td>
+<code>resourcesOversell</code><br/>
+<em>
+<a href="#policy.kcloudlabs.io/v1alpha1.ResourcesOversellRule">
+ResourcesOversellRule
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>ResourcesOversell valid only when the type is <code>resourcesOversell</code></p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tolerations</code><br/>
+<em>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#toleration-v1-core">
+[]Kubernetes core/v1.Toleration
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Tolerations valid only when the type is <code>tolerations</code></p>
+</td>
+</tr>
+<tr>
+<td>
+<code>affinity</code><br/>
+<em>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#affinity-v1-core">
+Kubernetes core/v1.Affinity
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Affinity valid only when the type is <code>affinity</code></p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="policy.kcloudlabs.io/v1alpha1.OverrideRuleType">OverrideRuleType
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.OverrideRuleTemplate">OverrideRuleTemplate</a>)
+</p>
+<div>
+<p>OverrideRuleType is definition for type of single override rule template</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;affinity&#34;</p></td>
+<td><p>OverrideRuleTypeAffinity - <code>affinity</code></p>
+</td>
+</tr><tr><td><p>&#34;annotations&#34;</p></td>
+<td><p>OverrideRuleTypeAnnotations - <code>annotations</code></p>
+</td>
+</tr><tr><td><p>&#34;labels&#34;</p></td>
+<td><p>OverrideRuleTypeLabels - <code>labels</code></p>
+</td>
+</tr><tr><td><p>&#34;resources&#34;</p></td>
+<td><p>OverrideRuleTypeResources - <code>resources</code></p>
+</td>
+</tr><tr><td><p>&#34;resourcesOversell&#34;</p></td>
+<td><p>OverrideRuleTypeResourcesOversell - <code>resourcesOversell</code></p>
+</td>
+</tr><tr><td><p>&#34;tolerations&#34;</p></td>
+<td><p>OverrideRuleTypeTolerations - <code>tolerations</code></p>
+</td>
+</tr></tbody>
+</table>
 <h3 id="policy.kcloudlabs.io/v1alpha1.OverriderOperator">OverriderOperator
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.PlaintextOverrider">PlaintextOverrider</a>, <a href="#policy.kcloudlabs.io/v1alpha1.TemplateRule">TemplateRule</a>)
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.OverrideRuleTemplate">OverrideRuleTemplate</a>, <a href="#policy.kcloudlabs.io/v1alpha1.PlaintextOverrider">PlaintextOverrider</a>)
 </p>
 <div>
 <p>OverriderOperator is the set of operators that can be used in an overrider.</p>
@@ -688,8 +910,8 @@ string
 <td>
 <code>template</code><br/>
 <em>
-<a href="#policy.kcloudlabs.io/v1alpha1.TemplateRule">
-TemplateRule
+<a href="#policy.kcloudlabs.io/v1alpha1.OverrideRuleTemplate">
+OverrideRuleTemplate
 </a>
 </em>
 </td>
@@ -772,10 +994,158 @@ Must be empty when operator is Remove.</p>
 </tr>
 </tbody>
 </table>
+<h3 id="policy.kcloudlabs.io/v1alpha1.PodAvailableBadge">PodAvailableBadge
+</h3>
+<p>
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ValidateRuleTemplate">ValidateRuleTemplate</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>maxUnavailable</code><br/>
+<em>
+k8s.io/apimachinery/pkg/util/intstr.IntOrString
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>MaxUnavailable sets the percentage or number of max unavailable pod of workload.
+e.g. if sets 60% and workload replicas is 5, then maxUnavailable is 3
+maxUnavailable and minAvailable are mutually exclusive, maxUnavailable is priority to take effect.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>minAvailable</code><br/>
+<em>
+k8s.io/apimachinery/pkg/util/intstr.IntOrString
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>MinAvailable sets the percentage or number of min available pod of workload.
+e.g. if sets 40% and workload replicas is 5, then minAvailable is 2.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>replicaReference</code><br/>
+<em>
+<a href="#policy.kcloudlabs.io/v1alpha1.ReplicaResourceRefer">
+ReplicaResourceRefer
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>ReplicaReference represents owner of current pod, in default case no need to set this field since
+in most of the cases we can get replicas of owner workload. But in some cases, pod might run without
+owner workload, so it need to get replicas from some other resource or remote api.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="policy.kcloudlabs.io/v1alpha1.ReplicaResourceRefer">ReplicaResourceRefer
+</h3>
+<p>
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.PodAvailableBadge">PodAvailableBadge</a>)
+</p>
+<div>
+<p>ReplicaResourceRefer defines different types of replica ref data</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>from</code><br/>
+<em>
+<a href="#policy.kcloudlabs.io/v1alpha1.ValueRefFrom">
+ValueRefFrom
+</a>
+</em>
+</td>
+<td>
+<em>(<code>Required</code>)</em>
+<p>From represents where this referenced object are.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>targetReplicaPath</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>TargetReplicaPath represents the path of target replica field from k8s resource or http response.
+For k8s resource, usually put &ldquo;/spec/replica&rdquo;
+For http resource, put something like &ldquo;body.data.targetReplica&rdquo;</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>currentReplicaPath</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>CurrentReplicaPath represents the path of current replica field from k8s resource or http response.
+For k8s resource, usually put &ldquo;/status/replica&rdquo;
+For http resource, put something like &ldquo;body.data.currentReplica&rdquo;</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>k8s</code><br/>
+<em>
+<a href="#policy.kcloudlabs.io/v1alpha1.ResourceSelector">
+ResourceSelector
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>K8s means refer another object from current cluster.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>http</code><br/>
+<em>
+<a href="#policy.kcloudlabs.io/v1alpha1.HttpDataRef">
+HttpDataRef
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Http means refer data from remote api.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="policy.kcloudlabs.io/v1alpha1.ResourceRefer">ResourceRefer
 </h3>
 <p>
-(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.TemplateCondition">TemplateCondition</a>, <a href="#policy.kcloudlabs.io/v1alpha1.TemplateRule">TemplateRule</a>)
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.OverrideRuleTemplate">OverrideRuleTemplate</a>, <a href="#policy.kcloudlabs.io/v1alpha1.ValidateCondition">ValidateCondition</a>)
 </p>
 <div>
 <p>ResourceRefer defines different types of ref data</p>
@@ -849,7 +1219,7 @@ HttpDataRef
 <h3 id="policy.kcloudlabs.io/v1alpha1.ResourceSelector">ResourceSelector
 </h3>
 <p>
-(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ClusterValidatePolicySpec">ClusterValidatePolicySpec</a>, <a href="#policy.kcloudlabs.io/v1alpha1.OverridePolicySpec">OverridePolicySpec</a>, <a href="#policy.kcloudlabs.io/v1alpha1.ResourceRefer">ResourceRefer</a>)
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ClusterValidatePolicySpec">ClusterValidatePolicySpec</a>, <a href="#policy.kcloudlabs.io/v1alpha1.OverridePolicySpec">OverridePolicySpec</a>, <a href="#policy.kcloudlabs.io/v1alpha1.ReplicaResourceRefer">ReplicaResourceRefer</a>, <a href="#policy.kcloudlabs.io/v1alpha1.ResourceRefer">ResourceRefer</a>)
 </p>
 <div>
 <p>ResourceSelector the resources will be selected.</p>
@@ -932,7 +1302,7 @@ If name is not empty, labelSelector will be ignored.</p>
 <h3 id="policy.kcloudlabs.io/v1alpha1.ResourcesOversellRule">ResourcesOversellRule
 </h3>
 <p>
-(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.TemplateRule">TemplateRule</a>)
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.OverrideRuleTemplate">OverrideRuleTemplate</a>)
 </p>
 <div>
 <p>ResourcesOversellRule defines factor of resource oversell</p>
@@ -989,41 +1359,6 @@ Float64
 </tr>
 </tbody>
 </table>
-<h3 id="policy.kcloudlabs.io/v1alpha1.RuleType">RuleType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.TemplateRule">TemplateRule</a>)
-</p>
-<div>
-<p>RuleType is definition for type of single rule</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;affinity&#34;</p></td>
-<td><p>RuleTypeAffinity - <code>affinity</code></p>
-</td>
-</tr><tr><td><p>&#34;annotations&#34;</p></td>
-<td><p>RuleTypeAnnotations - <code>annotations</code></p>
-</td>
-</tr><tr><td><p>&#34;labels&#34;</p></td>
-<td><p>RuleTypeLabels - <code>labels</code></p>
-</td>
-</tr><tr><td><p>&#34;resources&#34;</p></td>
-<td><p>RuleTypeResources - <code>resources</code></p>
-</td>
-</tr><tr><td><p>&#34;resourcesOversell&#34;</p></td>
-<td><p>RuleTypeResourcesOversell - <code>resourcesOversell</code></p>
-</td>
-</tr><tr><td><p>&#34;tolerations&#34;</p></td>
-<td><p>RuleTypeTolerations - <code>tolerations</code></p>
-</td>
-</tr></tbody>
-</table>
 <h3 id="policy.kcloudlabs.io/v1alpha1.RuleWithOperation">RuleWithOperation
 </h3>
 <p>
@@ -1072,10 +1407,10 @@ Overriders
 </tr>
 </tbody>
 </table>
-<h3 id="policy.kcloudlabs.io/v1alpha1.TemplateCondition">TemplateCondition
+<h3 id="policy.kcloudlabs.io/v1alpha1.ValidateCondition">ValidateCondition
 </h3>
 <p>
-(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ValidateRuleWithOperation">ValidateRuleWithOperation</a>)
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ValidateRuleTemplate">ValidateRuleTemplate</a>)
 </p>
 <div>
 </div>
@@ -1087,6 +1422,22 @@ Overriders
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<code>affectMode</code><br/>
+<em>
+<a href="#policy.kcloudlabs.io/v1alpha1.AffectMode">
+AffectMode
+</a>
+</em>
+</td>
+<td>
+<em>(<code>Required</code>)</em>
+<p>AffectMode represents the mode of policy hit affect, in default case(reject), webhook rejects the operation when
+policy hit, otherwise it will allow the operation.
+If mode is <code>allow</code>, only allow the operation when policy hit, otherwise reject them all.</p>
+</td>
+</tr>
 <tr>
 <td>
 <code>cond</code><br/>
@@ -1132,8 +1483,8 @@ string
 <td>
 <code>value</code><br/>
 <em>
-<a href="#policy.kcloudlabs.io/v1alpha1.CustomTypes">
-CustomTypes
+<a href="#policy.kcloudlabs.io/v1alpha1.ConstantValue">
+ConstantValue
 </a>
 </em>
 </td>
@@ -1157,15 +1508,30 @@ ResourceRefer
 Need specify the type of object and how to get it.</p>
 </td>
 </tr>
+<tr>
+<td>
+<code>valueProcess</code><br/>
+<em>
+<a href="#policy.kcloudlabs.io/v1alpha1.ValueProcess">
+ValueProcess
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>ValueProcess represents handle process for value or valueRef.
+Currently only support for number value, so make sure value or value from remote is a number.</p>
+</td>
+</tr>
 </tbody>
 </table>
-<h3 id="policy.kcloudlabs.io/v1alpha1.TemplateRule">TemplateRule
+<h3 id="policy.kcloudlabs.io/v1alpha1.ValidateRuleTemplate">ValidateRuleTemplate
 </h3>
 <p>
-(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.Overriders">Overriders</a>)
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ValidateRuleWithOperation">ValidateRuleWithOperation</a>)
 </p>
 <div>
-<p>TemplateRule represents a single template of rule definition</p>
+<p>ValidateRuleTemplate defines template for validate rule</p>
 </div>
 <table>
 <thead>
@@ -1179,8 +1545,8 @@ Need specify the type of object and how to get it.</p>
 <td>
 <code>type</code><br/>
 <em>
-<a href="#policy.kcloudlabs.io/v1alpha1.RuleType">
-RuleType
+<a href="#policy.kcloudlabs.io/v1alpha1.ValidateRuleType">
+ValidateRuleType
 </a>
 </em>
 </td>
@@ -1191,125 +1557,49 @@ RuleType
 </tr>
 <tr>
 <td>
-<code>operation</code><br/>
+<code>condition</code><br/>
 <em>
-<a href="#policy.kcloudlabs.io/v1alpha1.OverriderOperator">
-OverriderOperator
-</a>
-</em>
-</td>
-<td>
-<em>(<code>Required</code>)</em>
-<p>Operation represents current operation type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>path</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>Path is field path of current object(e.g. <code>/spec/affinity</code>)
-If current type is annotations of labels, then only need to provide the key, no need whole path.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>value</code><br/>
-<em>
-<a href="#policy.kcloudlabs.io/v1alpha1.CustomTypes">
-CustomTypes
+<a href="#policy.kcloudlabs.io/v1alpha1.ValidateCondition">
+ValidateCondition
 </a>
 </em>
 </td>
 <td>
 <em>(Optional)</em>
-<p>Value sets exact value for rule, like enum or numbers</p>
+<p>Condition represents general condition rule for more custom demand.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>valueRef</code><br/>
+<code>podAvailableBadge</code><br/>
 <em>
-<a href="#policy.kcloudlabs.io/v1alpha1.ResourceRefer">
-ResourceRefer
+<a href="#policy.kcloudlabs.io/v1alpha1.PodAvailableBadge">
+PodAvailableBadge
 </a>
 </em>
 </td>
 <td>
 <em>(Optional)</em>
-<p>ValueRef represents for value reference from current or remote object.
-Need specify the type of object and how to get it.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>resources</code><br/>
-<em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#resourcerequirements-v1-core">
-Kubernetes core/v1.ResourceRequirements
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>Resources valid only when the type is <code>resources</code></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>resourcesOversell</code><br/>
-<em>
-<a href="#policy.kcloudlabs.io/v1alpha1.ResourcesOversellRule">
-ResourcesOversellRule
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>ResourcesOversell valid only when the type is <code>resourcesOversell</code></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tolerations</code><br/>
-<em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#toleration-v1-core">
-[]Kubernetes core/v1.Toleration
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>Tolerations valid only when the type is <code>tolerations</code></p>
-</td>
-</tr>
-<tr>
-<td>
-<code>affinity</code><br/>
-<em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#affinity-v1-core">
-Kubernetes core/v1.Affinity
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>Affinity valid only when the type is <code>affinity</code></p>
+<p>PodAvailableBadge stores the number or percentage to make sure a group pod won&rsquo;t down to zero replica.</p>
 </td>
 </tr>
 </tbody>
 </table>
+<h3 id="policy.kcloudlabs.io/v1alpha1.ValidateRuleType">ValidateRuleType
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ValidateRuleTemplate">ValidateRuleTemplate</a>)
+</p>
+<div>
+<p>ValidateRuleType is definition for type of single validate rule template</p>
+</div>
 <h3 id="policy.kcloudlabs.io/v1alpha1.ValidateRuleWithOperation">ValidateRuleWithOperation
 </h3>
 <p>
 (<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ClusterValidatePolicySpec">ClusterValidatePolicySpec</a>)
 </p>
 <div>
-<p>ValidateRuleWithOperation defines the validate rules on operations.</p>
+<p>ValidateRuleWithOperation defines validate rules on operations.</p>
 </div>
 <table>
 <thead>
@@ -1351,8 +1641,8 @@ string
 <td>
 <code>template</code><br/>
 <em>
-<a href="#policy.kcloudlabs.io/v1alpha1.TemplateCondition">
-TemplateCondition
+<a href="#policy.kcloudlabs.io/v1alpha1.ValidateRuleTemplate">
+ValidateRuleTemplate
 </a>
 </em>
 </td>
@@ -1360,7 +1650,8 @@ TemplateCondition
 <em>(Optional)</em>
 <p>Template of condition which defines validate cond, and
 it will be rendered to CUE and store in RenderedCue field, so
-if there are any data added manually will be erased.</p>
+if there are any data added manually will be erased.
+Note: template and podAvailableBadge are <strong>MUTUALLY EXCLUSIVE</strong>, template is priority to take effect.</p>
 </td>
 </tr>
 <tr>
@@ -1378,10 +1669,57 @@ Don&rsquo;t modify the value of this field, modify Rules instead of.</p>
 </tr>
 </tbody>
 </table>
+<h3 id="policy.kcloudlabs.io/v1alpha1.ValueProcess">ValueProcess
+</h3>
+<p>
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ValidateCondition">ValidateCondition</a>)
+</p>
+<div>
+<p>ValueProcess defines operation to handle value to compare.
+E.g. operation: &lsquo;*&rsquo;
+operationWith: 50%  # or 0.5</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>operation</code><br/>
+<em>
+<a href="#policy.kcloudlabs.io/v1alpha1.OperationType">
+OperationType
+</a>
+</em>
+</td>
+<td>
+<em>(<code>Required</code>)</em>
+<p>Operation defines the type of operate value, and it should work with operationWith.
+For example, operation is <code>*</code> and operationWith is 0.5 then in cue the value will be multiplied by 0.5.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operationWith</code><br/>
+<em>
+k8s.io/apimachinery/pkg/util/intstr.IntOrString
+</em>
+</td>
+<td>
+<em>(<code>Required</code>)</em>
+<p>OperationWith defines value for operate to handle static value or value from remote.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="policy.kcloudlabs.io/v1alpha1.ValueRefFrom">ValueRefFrom
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ResourceRefer">ResourceRefer</a>)
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ReplicaResourceRefer">ReplicaResourceRefer</a>, <a href="#policy.kcloudlabs.io/v1alpha1.ResourceRefer">ResourceRefer</a>)
 </p>
 <div>
 <p>ValueRefFrom defines where the override value comes from when value is refer other object or http response</p>
@@ -1430,5 +1768,5 @@ Don&rsquo;t modify the value of this field, modify Rules instead of.</p>
 <hr/>
 <p><em>
 Generated with <code>gen-crd-api-reference-docs</code>
-on git commit <code>27ceb7a</code>.
+on git commit <code>72fd287</code>.
 </em></p>
