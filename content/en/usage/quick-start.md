@@ -1,18 +1,16 @@
 ---
 title: Quick Start
-weight: -20
+weight: 0
 ---
 
-## Quick Start
-
-### Apply crd files to your cluster
+## Apply crd files to your cluster
 ```shell
 kubectl apply -f https://raw.githubusercontent.com/k-cloud-labs/pkg/main/charts/_crds/bases/policy.kcloudlabs.io_overridepolicies.yaml
 kubectl apply -f https://raw.githubusercontent.com/k-cloud-labs/pkg/main/charts/_crds/bases/policy.kcloudlabs.io_clusteroverridepolicies.yaml
 kubectl apply -f https://raw.githubusercontent.com/k-cloud-labs/pkg/main/charts/_crds/bases/policy.kcloudlabs.io_clustervalidatepolicies.yaml
 ```
 
-### Deploy webhook to cluster
+## Deploy webhook to cluster
 All resources will be applied to `kinitiras-system` namespace by default. You can modify the deployment files as your expect.
 
 Pay attention to the deploy/webhook-configuration.yaml file. The default config will mutate and validate all kubernetes resources filtered by label `kinitiras.kcloudlabs.io/webhook: enabled`.
@@ -25,7 +23,7 @@ After all changes done, just apply it to your cluster.
 kubectl apply -f deploy/
 ```
 
-### Create policy
+## Create policy
 Three kind of policy are supported.
 
 `OverridePolicy` is used to mutate object in the same namespace.  
@@ -41,7 +39,7 @@ For namespaced scoped resource, apply order is:
 
 Both mutate and validate policy are programmable via [CUE](https://cuelang.org/).
 
-### Constraint
+## Constraint
 1. The kubernetes object will be passed to CUE by `object` parameter.
 2. The mutating result will be returned by `patches` parameter.
 3. The Validating result will be returned by `validate` parameter.

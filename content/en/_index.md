@@ -28,41 +28,41 @@ If you want to use it in clientside with client-go, please use [pidalio](https:/
 
 {{< columns >}}
 
-### Feature one
+### One webhook for all
 
-Stay focused on exploring the content and don't get overwhelmed by a complex design.
-
-<--->
-
-### Feature two
-
-The theme is powered by less than 1 MB and looks impressive on mobile devices as well as on a regular Desktop.
+One webhook for all One webhook for all One webhook for all One webhook for all.
 
 <--->
 
-### Feature three
+### Validate any resources
 
-The look and feel can be easily customized by CSS custom properties (variables), features can be adjusted by Hugo parameters.
+Validate any resources Validate any resources Validate any resources Validate any resources Validate any resources.
+
+<--->
+
+### Override any resources
+
+Override any resources Override any resources Override any resources Override any resources Override any resources.
 
 {{< /columns >}}
 
 {{< columns >}}
 
-### Feature four
+### Provide simple template
 
-Getting started in minutes. The theme is shipped with a default configuration and works out of the box.
-
-<--->
-
-### Feature five
-
-We included some (hopefully) useful custom shortcodes so you don't have to and can focus on writing amazing docs.
+Provide simple template Provide simple template Provide simple template Provide simple template Provide simple template.
 
 <--->
 
-### Feature six
+### Support Cue
 
-Powerful dark mode that detects your system preferences or can be controlled by a toggle switch.
+Support Cue Support Cue Support Cue Support Cue Support Cue Support Cue Support Cue Support Cue.
+
+<--->
+
+### Support clientside
+
+Support clientside Support clientside Support clientside Support clientside Support clientside Support clientside.
 
 {{< /columns >}}
 
