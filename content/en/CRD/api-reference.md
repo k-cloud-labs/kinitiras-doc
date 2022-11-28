@@ -594,7 +594,134 @@ k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 </em>
 </td>
 <td>
+<em>(Optional)</em>
 <p>Body represents the json body when http method is POST.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>auth</code><br/>
+<em>
+<a href="#policy.kcloudlabs.io/v1alpha1.HttpRequestAuth">
+HttpRequestAuth
+</a>
+</em>
+</td>
+<td>
+<p>Auth defines basic info for get authorization token before do request.
+Note: it will request authURL with post and <code>Header.Set(&quot;Authorization&quot;, &quot;Basic &quot;+basicAuth(username, password))</code>
+and get token from response body. Response Body must be a valid json and contains token like this: `{&ldquo;token&rdquo;: &ldquo;xxx&rdquo;} .
+After get the token, the request will add a new key value to header, key is &ldquo;Authorization&rdquo; and value is &ldquo;Bearer xxx&rdquo;.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="policy.kcloudlabs.io/v1alpha1.HttpRequestAuth">HttpRequestAuth
+</h3>
+<p>
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.HttpDataRef">HttpDataRef</a>)
+</p>
+<div>
+<p>HttpRequestAuth defines basic info for get auth token from remote api</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>staticToken</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>StaticToken represents for static token for call api instead of get token from remote api.
+StaticToken and other fields are mutually exclusive, staticToken is priority to take effect.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>username</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Username represents username for auth.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>password</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Password represents Password for auth.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>authUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>AuthURL represents remote url to request and get token.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>expireDuration</code><br/>
+<em>
+<a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#Duration">
+Kubernetes meta/v1.Duration
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>ExpireDuration is providing for some auth api won&rsquo;t return exact expire time, so can you this field set
+an expiry duration for token</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>token</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Token stores the latest token get from AuthURL, and it&rsquo;ll be updated when token expired.
+This filed is not fill by user, so don&rsquo;t edit it.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>expireAt</code><br/>
+<em>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#time-v1-meta">
+Kubernetes meta/v1.Time
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>ExpireAt sores the token expire time. Same as above field, this field also updated automatically.
+This filed is not fill by user, so don&rsquo;t edit it.</p>
 </td>
 </tr>
 </tbody>
@@ -1768,5 +1895,5 @@ k8s.io/apimachinery/pkg/util/intstr.IntOrString
 <hr/>
 <p><em>
 Generated with <code>gen-crd-api-reference-docs</code>
-on git commit <code>72fd287</code>.
+.
 </em></p>
