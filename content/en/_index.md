@@ -24,25 +24,25 @@ If you want to use it in clientside with client-go, please use [pidalio](https:/
 
 {{< button size="large" relref="usage/quick-start/" >}}Getting Started{{< /button >}}
 
-## Feature overview (TBD)
+## Feature overview
 
 {{< columns >}}
 
 ### One webhook for all
 
-One webhook for all One webhook for all One webhook for all One webhook for all.
+You can customize your own mutate/validate policy to override/validate any resource in the Cluster instead of writing a new webhook.
 
 <--->
 
 ### Validate any resources
 
-Validate any resources Validate any resources Validate any resources Validate any resources Validate any resources.
+Kinitiras support validate all kind of resource including user CRD, can select resource by setting resource GVK and labels.
 
 <--->
 
 ### Override any resources
 
-Override any resources Override any resources Override any resources Override any resources Override any resources.
+Kinitiras support override all kind of resource including user CRD, can select resource by setting resource GVK and labels.
 
 {{< /columns >}}
 
@@ -50,19 +50,19 @@ Override any resources Override any resources Override any resources Override an
 
 ### Provide simple template
 
-Provide simple template Provide simple template Provide simple template Provide simple template Provide simple template.
+Kinitiras provides very simple template to make it easy to use, it takes only few field to validate or override resources fields.
 
 <--->
 
 ### Support Cue
 
-Support Cue Support Cue Support Cue Support Cue Support Cue Support Cue Support Cue Support Cue.
+Kinitiras also support [cue](https://cuelang.org) which provides a powerful method to write complex rule for any situation.
 
 <--->
 
 ### Support clientside
 
-Support clientside Support clientside Support clientside Support clientside Support clientside Support clientside.
+Kinitiras also provides clientside package, click [here](https://github.com/k-cloud-labs/pidalio) to learn more.
 
 {{< /columns >}}
 

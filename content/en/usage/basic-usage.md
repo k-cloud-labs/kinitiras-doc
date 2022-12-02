@@ -9,16 +9,80 @@ weight: 1
 # OverridePolicy
 
 {{< hint type=note >}}
-OverridePolicy and ClusterOverridePolicy are only different by sphere of influence, no other difference.
+`OverridePolicy` and `ClusterOverridePolicy` are only different by sphere of influence, no other difference.
 {{< /hint >}}
+
+## ResourceSelector
+ 
+Resource selector is providing two kind of way to select resource which should affected by current policy, here is how to set selector:
+
+{{< tabs "uniqueid" >}}
+{{< tab "ByName" >}}
+```yaml
+spec:
+  resourceSelectors:
+    # match Deployment
+    - apiVersion: v1
+      kind: Deployment
+      namespace: custom-ns
+      name: deployment1
+```
+{{< /tab >}}
+{{< tab "ByLabels" >}}
+```yaml
+spec:
+  resourceSelectors:
+    # match Pod with below label
+    - apiVersion: v1
+      kind: Pod
+      labelSelector:
+        matchLabels:
+          kinitiras.kcloudlabs.io/webhook: enabled
+```
+{{< /tab >}}
+{{< /tabs >}}
+
 
 ## PlainText
 
-> wip
+```yaml
+spec:
+  overrideRules:
+    - targetOperations:
+        - CREATE
+      overriders:
+        plaintext:
+          - path: /metadata/labels/added-by
+            op: add
+            value: op
+```
 
 ## Cue
 
-> wip
+```yaml
+spec:
+  overrideRules:
+    - targetOperations:
+        - CREATE
+      overriders:
+        cue: |-
+          object: _ @tag(object)
+
+          patches: [
+            if object.metadata.annotations == _|_ {
+              {
+                op: "add"
+                path: "/metadata/annotations"
+                value: {}
+              }
+            },
+            {
+              op: "add"
+              path: "/metadata/annotations/added-by"
+              value: "cue"
+            }
+          ]
+```
 
 ## Template
 
