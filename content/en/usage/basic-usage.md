@@ -1,6 +1,6 @@
 ---
 title: Basic Usage
-weight: 1
+weight: 2
 ---
 
 {{< toc >}}
@@ -394,9 +394,58 @@ spec:
 
 # ClusterValidatePolicy
 
-## PlaintText
+## ResourceSelector
+
+Resource selector is providing two kind of way to select resource which should affected by current policy, here is how to set selector:
+
+{{< tabs "uniqueid" >}}
+{{< tab "ByName" >}}
+```yaml
+spec:
+  resourceSelectors:
+    # match Deployment
+    - apiVersion: v1
+      kind: Deployment
+      namespace: custom-ns
+      name: deployment1
+```
+{{< /tab >}}
+{{< tab "ByLabels" >}}
+```yaml
+spec:
+  resourceSelectors:
+    # match Pod with below label
+    - apiVersion: v1
+      kind: Pod
+      labelSelector:
+        matchLabels:
+          kinitiras.kcloudlabs.io/webhook: enabled
+```
+{{< /tab >}}
+{{< /tabs >}}
 
 ## Cue
+
+```yaml
+spec:
+  validateRules:
+    - cue: |-
+        object: _ @tag(object)
+
+        reject: object.metadata.labels != null && object.metadata.labels["kinitiras.kcloudlabs.io/webhook"] == "enabled"
+
+        validate: {
+          if reject{
+                  reason: "operation rejected"
+          }
+          if !reject{
+                  reason: ""
+          }
+          valid: !reject
+        }
+      targetOperations:
+        - DELETE
+```
 
 ## Template
 
