@@ -514,6 +514,108 @@ map[string]string
 </tr>
 </tbody>
 </table>
+<h3 id="policy.kcloudlabs.io/v1alpha1.FieldSelector">FieldSelector
+</h3>
+<p>
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ResourceSelector">ResourceSelector</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>matchFields</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>matchFields is a map of {key,value} pairs. A single {key,value} in the matchFields
+map is equivalent to an element of matchExpressions, whose key field is &ldquo;key&rdquo;, the
+operator is &ldquo;In&rdquo;, and the values array contains only &ldquo;value&rdquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>matchExpressions</code><br/>
+<em>
+<a href="#policy.kcloudlabs.io/v1alpha1.FieldSelectorRequirement">
+[]FieldSelectorRequirement
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>matchExpressions is a list of fields selector requirements. The requirements are ANDed.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="policy.kcloudlabs.io/v1alpha1.FieldSelectorRequirement">FieldSelectorRequirement
+</h3>
+<p>
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.FieldSelector">FieldSelector</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>field</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Field is the field key that the selector applies to.
+Must provide whole path of key, such as <code>metadata.annotations.uid</code></p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operator</code><br/>
+<em>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#labelselectoroperator-v1-meta">
+Kubernetes meta/v1.LabelSelectorOperator
+</a>
+</em>
+</td>
+<td>
+<p>operator represents a key&rsquo;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="policy.kcloudlabs.io/v1alpha1.Float64">Float64
 (<code>string</code> alias)</h3>
 <p>
@@ -525,7 +627,7 @@ map[string]string
 <h3 id="policy.kcloudlabs.io/v1alpha1.HttpDataRef">HttpDataRef
 </h3>
 <p>
-(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ReplicaResourceRefer">ReplicaResourceRefer</a>, <a href="#policy.kcloudlabs.io/v1alpha1.ResourceRefer">ResourceRefer</a>)
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ResourceRefer">ResourceRefer</a>)
 </p>
 <div>
 <p>HttpDataRef defines a http request essential params</p>
@@ -1121,154 +1223,6 @@ Must be empty when operator is Remove.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="policy.kcloudlabs.io/v1alpha1.PodAvailableBadge">PodAvailableBadge
-</h3>
-<p>
-(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ValidateRuleTemplate">ValidateRuleTemplate</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>maxUnavailable</code><br/>
-<em>
-k8s.io/apimachinery/pkg/util/intstr.IntOrString
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>MaxUnavailable sets the percentage or number of max unavailable pod of workload.
-e.g. if sets 60% and workload replicas is 5, then maxUnavailable is 3
-maxUnavailable and minAvailable are mutually exclusive, maxUnavailable is priority to take effect.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>minAvailable</code><br/>
-<em>
-k8s.io/apimachinery/pkg/util/intstr.IntOrString
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>MinAvailable sets the percentage or number of min available pod of workload.
-e.g. if sets 40% and workload replicas is 5, then minAvailable is 2.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>replicaReference</code><br/>
-<em>
-<a href="#policy.kcloudlabs.io/v1alpha1.ReplicaResourceRefer">
-ReplicaResourceRefer
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>ReplicaReference represents owner of current pod, in default case no need to set this field since
-in most of the cases we can get replicas of owner workload. But in some cases, pod might run without
-owner workload, so it need to get replicas from some other resource or remote api.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="policy.kcloudlabs.io/v1alpha1.ReplicaResourceRefer">ReplicaResourceRefer
-</h3>
-<p>
-(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.PodAvailableBadge">PodAvailableBadge</a>)
-</p>
-<div>
-<p>ReplicaResourceRefer defines different types of replica ref data</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>from</code><br/>
-<em>
-<a href="#policy.kcloudlabs.io/v1alpha1.ValueRefFrom">
-ValueRefFrom
-</a>
-</em>
-</td>
-<td>
-<em>(<code>Required</code>)</em>
-<p>From represents where this referenced object are.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>targetReplicaPath</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>TargetReplicaPath represents the path of target replica field from k8s resource or http response.
-For k8s resource, usually put &ldquo;/spec/replica&rdquo;
-For http resource, put something like &ldquo;body.data.targetReplica&rdquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>currentReplicaPath</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>CurrentReplicaPath represents the path of current replica field from k8s resource or http response.
-For k8s resource, usually put &ldquo;/status/replica&rdquo;
-For http resource, put something like &ldquo;body.data.currentReplica&rdquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>k8s</code><br/>
-<em>
-<a href="#policy.kcloudlabs.io/v1alpha1.ResourceSelector">
-ResourceSelector
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>K8s means refer another object from current cluster.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>http</code><br/>
-<em>
-<a href="#policy.kcloudlabs.io/v1alpha1.HttpDataRef">
-HttpDataRef
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>Http means refer data from remote api.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="policy.kcloudlabs.io/v1alpha1.ResourceRefer">ResourceRefer
 </h3>
 <p>
@@ -1346,7 +1300,7 @@ HttpDataRef
 <h3 id="policy.kcloudlabs.io/v1alpha1.ResourceSelector">ResourceSelector
 </h3>
 <p>
-(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ClusterValidatePolicySpec">ClusterValidatePolicySpec</a>, <a href="#policy.kcloudlabs.io/v1alpha1.OverridePolicySpec">OverridePolicySpec</a>, <a href="#policy.kcloudlabs.io/v1alpha1.ReplicaResourceRefer">ReplicaResourceRefer</a>, <a href="#policy.kcloudlabs.io/v1alpha1.ResourceRefer">ResourceRefer</a>)
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ClusterValidatePolicySpec">ClusterValidatePolicySpec</a>, <a href="#policy.kcloudlabs.io/v1alpha1.OverridePolicySpec">OverridePolicySpec</a>, <a href="#policy.kcloudlabs.io/v1alpha1.ResourceRefer">ResourceRefer</a>)
 </p>
 <div>
 <p>ResourceSelector the resources will be selected.</p>
@@ -1422,6 +1376,21 @@ Kubernetes meta/v1.LabelSelector
 <em>(Optional)</em>
 <p>A label query over a set of resources.
 If name is not empty, labelSelector will be ignored.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>fieldSelector</code><br/>
+<em>
+<a href="#policy.kcloudlabs.io/v1alpha1.FieldSelector">
+FieldSelector
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>A field query over a set of resources.
+If name is not empty, fieldSelector wil be ignored.</p>
 </td>
 </tr>
 </tbody>
@@ -1696,20 +1665,6 @@ ValidateCondition
 <p>Condition represents general condition rule for more custom demand.</p>
 </td>
 </tr>
-<tr>
-<td>
-<code>podAvailableBadge</code><br/>
-<em>
-<a href="#policy.kcloudlabs.io/v1alpha1.PodAvailableBadge">
-PodAvailableBadge
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>PodAvailableBadge stores the number or percentage to make sure a group pod won&rsquo;t down to zero replica.</p>
-</td>
-</tr>
 </tbody>
 </table>
 <h3 id="policy.kcloudlabs.io/v1alpha1.ValidateRuleType">ValidateRuleType
@@ -1777,8 +1732,7 @@ ValidateRuleTemplate
 <em>(Optional)</em>
 <p>Template of condition which defines validate cond, and
 it will be rendered to CUE and store in RenderedCue field, so
-if there are any data added manually will be erased.
-Note: template and podAvailableBadge are <strong>MUTUALLY EXCLUSIVE</strong>, template is priority to take effect.</p>
+if there are any data added manually will be erased.</p>
 </td>
 </tr>
 <tr>
@@ -1846,7 +1800,7 @@ k8s.io/apimachinery/pkg/util/intstr.IntOrString
 <h3 id="policy.kcloudlabs.io/v1alpha1.ValueRefFrom">ValueRefFrom
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ReplicaResourceRefer">ReplicaResourceRefer</a>, <a href="#policy.kcloudlabs.io/v1alpha1.ResourceRefer">ResourceRefer</a>)
+(<em>Appears on:</em><a href="#policy.kcloudlabs.io/v1alpha1.ResourceRefer">ResourceRefer</a>)
 </p>
 <div>
 <p>ValueRefFrom defines where the override value comes from when value is refer other object or http response</p>
