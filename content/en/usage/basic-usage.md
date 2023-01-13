@@ -5,19 +5,16 @@ weight: 2
 
 {{< toc >}}
 
+# ResourceSelector
 
-# OverridePolicy
-
-{{< hint type=note >}}
-`OverridePolicy` and `ClusterOverridePolicy` are only different by sphere of influence, no other difference.
-{{< /hint >}}
-
-## ResourceSelector
- 
 Resource selector is providing two kind of way to select resource which should affected by current policy, here is how to set selector:
 
-{{< tabs "uniqueid" >}}
+
+{{< tabs "override" >}}
 {{< tab "ByName" >}}
+
+### Filter by name
+
 ```yaml
 spec:
   resourceSelectors:
@@ -27,8 +24,12 @@ spec:
       namespace: custom-ns
       name: deployment1
 ```
+
 {{< /tab >}}
 {{< tab "ByLabels" >}}
+
+### Filter by labels
+
 ```yaml
 spec:
   resourceSelectors:
@@ -38,12 +39,57 @@ spec:
       labelSelector:
         matchLabels:
           kinitiras.kcloudlabs.io/webhook: enabled
+#       also support expression   
+#        matchExpressions:
+#          - key: xx.xx.io/key
+#            operator: Exists
 ```
+
+{{< /tab >}}
+{{< tab "ByFields" >}}
+
+### Filter by fields
+
+```yaml
+spec:
+  resourceSelectors:
+    # match Pod with below field
+    - apiVersion: v1
+      kind: Pod
+      fieldSelector:
+        matchFields:
+          metadata.annotations.a1: value1
+#       also support expression   
+#        matchExpressions:
+#          - field: metadata.name
+#            operator: In
+#            values:
+#            - abc
+#            - def
+```
+
 {{< /tab >}}
 {{< /tabs >}}
 
 
+# OverridePolicy
+
+{{< hint type=note >}}
+`OverridePolicy` and `ClusterOverridePolicy` are only different by sphere of influence, no other differences.
+{{< /hint >}}
+
+---
+{{< hint type=important >}}
+ From here let us tell you how to write an override policy. There are three types of override policy expression, you can
+ write simple `plainText` rule, or you can write `cue` policy if you familiar with `cuelang`, you can also use the template
+ mode to make it easy and more powerful.
+{{< /hint >}}
+
 ## PlainText
+
+Only need to specify `path`, `op` and the value (if remove field then no need to provide value).
+
+example:
 
 ```yaml
 spec:
@@ -59,6 +105,19 @@ spec:
 
 ## Cue
 
+In cue sector, it requires you to how `cue` works and how to write a simple `cue` script. The bottom line is the cue script must
+contain `array of patches` and the element of this array must be a standard patch like this:
+
+```js
+{
+  op: "add|replace|remove"
+  path: "/path/to/field"
+  value: "only provide when op is add or replace" 
+}
+```
+
+example:
+
 ```yaml
 spec:
   overrideRules:
@@ -69,7 +128,7 @@ spec:
           object: _ @tag(object)
 
           patches: [
-            if object.metadata.annotations == _|_ {
+            if object.metadata.annotations == _|_ { // cue support go style coding like this
               {
                 op: "add"
                 path: "/metadata/annotations"
@@ -86,7 +145,15 @@ spec:
 
 ## Template
 
+Template provides a series type of policy module to make the override policy easy to configure and use. Users only need to 
+specify few fields and value(value support const value and reference value) and `kinitiras` will render template to cue to run 
+in runtime.
+
 ### Annotations
+
+This type is aiming to override object's annotations.
+
+example:
 
 ```yaml
 kind: OverridePolicy
@@ -139,6 +206,10 @@ spec:
 
 ### Labels
 
+This type is aiming to override object's labels.
+
+example:
+
 ```yaml
 kind: OverridePolicy
 apiVersion: policy.kcloudlabs.io/v1alpha1
@@ -175,6 +246,10 @@ spec:
 
 ### Resources
 
+This type is aiming to override object's resource(only support deployment and pod now).
+
+example:
+
 ```yaml
 kind: OverridePolicy
 apiVersion: policy.kcloudlabs.io/v1alpha1
@@ -194,7 +269,6 @@ spec:
   overrideRules:
     - targetOperations:
         - CREATE
-        - UPDATE
       overriders:
         template:
           type: resources
@@ -221,6 +295,10 @@ spec:
 ```
 
 ### ResourceOversell
+
+This type is aiming change the request resource to oversell resources.
+
+example:
 
 ```yaml
 kind: OverridePolicy
@@ -253,6 +331,10 @@ spec:
 ```
 
 ### Tolerations
+
+This type is aiming to override object's tolerations.
+
+example:
 
 ```yaml
 kind: OverridePolicy
@@ -290,6 +372,10 @@ spec:
 ```
 
 ### Affinity
+
+This type is aiming to override object's affinity.
+
+example:
 
 ```yaml
 kind: OverridePolicy
@@ -391,40 +477,27 @@ spec:
                   weight: 100
 ```
 
-
 # ClusterValidatePolicy
 
-## ResourceSelector
-
-Resource selector is providing two kind of way to select resource which should affected by current policy, here is how to set selector:
-
-{{< tabs "uniqueid" >}}
-{{< tab "ByName" >}}
-```yaml
-spec:
-  resourceSelectors:
-    # match Deployment
-    - apiVersion: v1
-      kind: Deployment
-      namespace: custom-ns
-      name: deployment1
-```
-{{< /tab >}}
-{{< tab "ByLabels" >}}
-```yaml
-spec:
-  resourceSelectors:
-    # match Pod with below label
-    - apiVersion: v1
-      kind: Pod
-      labelSelector:
-        matchLabels:
-          kinitiras.kcloudlabs.io/webhook: enabled
-```
-{{< /tab >}}
-{{< /tabs >}}
+{{< hint type=important >}}
+From here let us tell you how to write an validate policy(currently there is only cluster level validate policy). 
+There are two types of validate policy expression, you can write `cue` policy if you familiar with `cuelang`, 
+you can also use the template mode to make it easy and more powerful.
+{{< /hint >}}
 
 ## Cue
+
+In cue sector, it requires you to how `cue` works and how to write a simple `cue` script. The bottom line is the cue script must
+contain `validate` object like this:
+
+```js
+{
+  validate: true | false 
+}
+```
+
+It will reject current operation if value is `false`.
+
 
 ```yaml
 spec:
@@ -448,6 +521,10 @@ spec:
 ```
 
 ## Template
+
+Template provides a way to specify the field need to be verified and the values if it needed. Users only need to
+specify few fields and value(value support const value and reference value) and `kinitiras` will render template to cue to run
+in runtime.
 
 ### Condition
 

@@ -10,9 +10,13 @@
 
     --button-background: #62cb97;
     --button-border-color: #4ec58a;
+
+    --code-font-color: red;
 }
 
 :root[color-theme="dark"] {
     --header-background: #1d5151;
     --header-font-color: #ffffff;
+
+    --code-font-color: yellow;
 }
