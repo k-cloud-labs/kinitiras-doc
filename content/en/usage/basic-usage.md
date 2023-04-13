@@ -429,7 +429,7 @@ spec:
               preferredDuringSchedulingIgnoredDuringExecution:
                 - preference:
                     matchFields:
-                      - key: bromo
+                      - key: test
                         operator: In
                         values:
                           - abcd
@@ -437,7 +437,7 @@ spec:
               requiredDuringSchedulingIgnoredDuringExecution:
                 nodeSelectorTerms:
                   - matchExpressions:
-                      - key: bromo
+                      - key: test
                         operator: In
                         values:
                           - abc
@@ -448,14 +448,14 @@ spec:
                 - podAffinityTerm:
                     labelSelector:
                       matchExpressions:
-                        - key: bromo_deployment
+                        - key: test_deployment
                           operator: In
                           values:
                             - "221019111032552325"
-                        - key: bromo_service
+                        - key: test_service
                           operator: In
                           values:
-                            - szdevops-yushan-test-sg
+                            - test-service
                     topologyKey: kubernetes.io/hostname
                   weight: 100
             podAntiAffinity:
@@ -465,14 +465,14 @@ spec:
                 - podAffinityTerm:
                     labelSelector:
                       matchExpressions:
-                        - key: bromo_deployment
+                        - key: test_deployment
                           operator: In
                           values:
                             - "221019111032552325"
-                        - key: bromo_service
+                        - key: test_service
                           operator: In
                           values:
-                            - szdevops-yushan-test-sg
+                            - test-service
                     topologyKey: kubernetes.io/hostname
                   weight: 100
 ```
@@ -561,7 +561,7 @@ spec:
             from: current
             path: "/metadata/annotations/owned-by"
           value: # reject when field value equals bormo
-            string: "bromo"
+            string: "test"
     - targetOperations:
         - DELETE
       template:
@@ -571,7 +571,7 @@ spec:
           message: "cannot delete this ns"
           value:
             stringSlice:
-              - bromo
+              - test
               - ecp
               - oam
               - leap
